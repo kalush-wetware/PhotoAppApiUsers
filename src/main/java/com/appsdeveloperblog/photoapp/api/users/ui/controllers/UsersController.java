@@ -29,7 +29,8 @@ public class UsersController {
 
     @GetMapping("/status/check")
     public String status() {
-        return "Working on port " + env.getProperty("local.server.port");
+        return "Working on port " + env.getProperty("local.server.port") 
+                + ", with token = " + env.getProperty("token.secret");
     }
 
     @PostMapping(
@@ -37,6 +38,8 @@ public class UsersController {
             produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE}
     )
     public ResponseEntity<CreateUserResponseModel> createUser(@RequestBody CreateUserRequestModel userDetails) {
+        String token = env.getProperty("token.secret");
+        System.out.println("TOKEN : " + token);
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 
